@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام إدارة العملية الانتخابية - حزب مستقبل وطن</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -174,6 +175,77 @@
             width: auto;
             margin: 0;
         }
+
+        .btn-export {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px 5px;
+            width: auto;
+            transition: transform 0.2s;
+        }
+
+        .btn-export:hover {
+            transform: translateY(-1px);
+            background: #218838;
+        }
+
+        .keyboard-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .keyboard-title {
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .keyboard-grid {
+            display: inline-grid;
+            grid-template-columns: repeat(3, 60px);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .keyboard-btn {
+            width: 60px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .keyboard-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .keyboard-btn:active {
+            transform: translateY(0);
+        }
+
+        .keyboard-zero {
+            grid-column: 1 / span 2;
+            width: 130px;
+        }
+
+        .keyboard-clear {
+            background: #dc3545;
+            grid-column: 3;
+        }
         
         .national-id-input {
             font-family: monospace;
@@ -229,6 +301,26 @@
             </div>
             <button class="btn" onclick="registerVoter()">تسجيل ناخب</button>
             <div id="hashdMessage"></div>
+            
+            <!-- لوحة المفاتيح الرقمية -->
+            <div class="keyboard-container">
+                <div class="keyboard-title">لوحة المفاتيح الرقمية</div>
+                <div class="keyboard-grid">
+                    <button class="keyboard-btn" onclick="addToInput('hashdNationalId', '1')">1</button>
+                    <button class="keyboard-btn" onclick="addToInput('hashdNationalId', '2')">2</button>
+                    <button class="keyboard-btn" onclick="addToInput('hashdNationalId', '3')">3</button>
+                    <button class="keyboard-btn" onclick="addToInput('hashdNationalId', '4')">4</button>
+                    <button class="keyboard-btn" onclick="addToInput('hashdNationalId', '5')">5</button>
+                    <button class="keyboard-btn" onclick="addToInput('hashdNationalId', '6')">6</button>
+                    <button class="keyboard-btn" onclick="addToInput('hashdNationalId', '7')">7</button>
+                    <button class="keyboard-btn" onclick="addToInput('hashdNationalId', '8')">8</button>
+                    <button class="keyboard-btn" onclick="addToInput('hashdNationalId', '9')">9</button>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 10px;">
+                    <button class="keyboard-btn keyboard-zero" onclick="addToInput('hashdNationalId', '0')">0</button>
+                    <button class="keyboard-btn keyboard-clear" onclick="clearInput('hashdNationalId')">مسح</button>
+                </div>
+            </div>
             <div class="counter">
                 <p>عدد المواطنين المسجلين</p>
                 <h3 id="hashdCounter">0</h3>
@@ -247,6 +339,26 @@
             </div>
             <button class="btn" onclick="registerVote()">تسجيل انتخاب</button>
             <div id="maqarrMessage"></div>
+            
+            <!-- لوحة المفاتيح الرقمية -->
+            <div class="keyboard-container">
+                <div class="keyboard-title">لوحة المفاتيح الرقمية</div>
+                <div class="keyboard-grid">
+                    <button class="keyboard-btn" onclick="addToInput('maqarrNationalId', '1')">1</button>
+                    <button class="keyboard-btn" onclick="addToInput('maqarrNationalId', '2')">2</button>
+                    <button class="keyboard-btn" onclick="addToInput('maqarrNationalId', '3')">3</button>
+                    <button class="keyboard-btn" onclick="addToInput('maqarrNationalId', '4')">4</button>
+                    <button class="keyboard-btn" onclick="addToInput('maqarrNationalId', '5')">5</button>
+                    <button class="keyboard-btn" onclick="addToInput('maqarrNationalId', '6')">6</button>
+                    <button class="keyboard-btn" onclick="addToInput('maqarrNationalId', '7')">7</button>
+                    <button class="keyboard-btn" onclick="addToInput('maqarrNationalId', '8')">8</button>
+                    <button class="keyboard-btn" onclick="addToInput('maqarrNationalId', '9')">9</button>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 10px;">
+                    <button class="keyboard-btn keyboard-zero" onclick="addToInput('maqarrNationalId', '0')">0</button>
+                    <button class="keyboard-btn keyboard-clear" onclick="clearInput('maqarrNationalId')">مسح</button>
+                </div>
+            </div>
             <div class="counter">
                 <p>عدد المواطنين المنتخبين</p>
                 <h3 id="maqarrCounter">0</h3>
@@ -265,6 +377,26 @@
             </div>
             <button class="btn" onclick="registerDispense()">تسجيل صرف</button>
             <div id="sarafMessage"></div>
+            
+            <!-- لوحة المفاتيح الرقمية -->
+            <div class="keyboard-container">
+                <div class="keyboard-title">لوحة المفاتيح الرقمية</div>
+                <div class="keyboard-grid">
+                    <button class="keyboard-btn" onclick="addToInput('sarafNationalId', '1')">1</button>
+                    <button class="keyboard-btn" onclick="addToInput('sarafNationalId', '2')">2</button>
+                    <button class="keyboard-btn" onclick="addToInput('sarafNationalId', '3')">3</button>
+                    <button class="keyboard-btn" onclick="addToInput('sarafNationalId', '4')">4</button>
+                    <button class="keyboard-btn" onclick="addToInput('sarafNationalId', '5')">5</button>
+                    <button class="keyboard-btn" onclick="addToInput('sarafNationalId', '6')">6</button>
+                    <button class="keyboard-btn" onclick="addToInput('sarafNationalId', '7')">7</button>
+                    <button class="keyboard-btn" onclick="addToInput('sarafNationalId', '8')">8</button>
+                    <button class="keyboard-btn" onclick="addToInput('sarafNationalId', '9')">9</button>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 10px;">
+                    <button class="keyboard-btn keyboard-zero" onclick="addToInput('sarafNationalId', '0')">0</button>
+                    <button class="keyboard-btn keyboard-clear" onclick="clearInput('sarafNationalId')">مسح</button>
+                </div>
+            </div>
             <div class="counter">
                 <p>عدد المواطنين المصروف لهم</p>
                 <h3 id="sarafCounter">0</h3>
@@ -296,6 +428,7 @@
                 </div>
             </div>
             <button class="btn" onclick="refreshAnalytics()" style="margin-top: 20px;">تحديث البيانات</button>
+            <button class="btn-export" onclick="exportAllData()">📊 تصدير جميع البيانات إلى Excel</button>
         </div>
 
         <!-- واجهة المدير -->
@@ -356,18 +489,31 @@
                 </div>
             </div>
             <button class="btn" onclick="refreshAdminData()" style="margin-top: 20px;">تحديث البيانات</button>
+            <button class="btn-export" onclick="exportCompleteReport()">📊 تصدير التقرير الشامل إلى Excel</button>
         </div>
     </div>
 
     <script>
+        // وظائف لوحة المفاتيح الرقمية
+        function addToInput(inputId, digit) {
+            const input = document.getElementById(inputId);
+            if (input.value.length < 14) {
+                input.value += digit;
+            }
+        }
+
+        function clearInput(inputId) {
+            document.getElementById(inputId).value = '';
+        }
+
         // بيانات النظام
         let systemData = {
             users: {
-                admin: { password: 'admin123', type: 'admin', location: 'الإدارة العامة' },
-                hashd1: { password: 'hashd123', type: 'hashd', location: 'نقطة الحشد 1' },
-                maqarr1: { password: 'maqarr123', type: 'maqarr', location: 'المقر الانتخابي 1' },
-                saraf1: { password: 'saraf123', type: 'saraf', location: 'نقطة الصرف 1' },
-                analytics: { password: 'data123', type: 'analytics', location: 'قسم البيانات' }
+                مدير: { password: 'مدير123', type: 'admin', location: 'الإدارة العامة' },
+                حشد1: { password: 'حشد123', type: 'hashd', location: 'نقطة الحشد 1' },
+                مقر1: { password: 'مقر123', type: 'maqarr', location: 'المقر الانتخابي 1' },
+                صرف1: { password: 'صرف123', type: 'saraf', location: 'نقطة الصرف 1' },
+                تحليل: { password: 'تحليل123', type: 'analytics', location: 'قسم البيانات' }
             },
             registrations: [], // تسجيلات الحشد
             votes: [], // تسجيلات الانتخاب
