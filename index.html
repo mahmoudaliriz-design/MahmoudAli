@@ -632,69 +632,6 @@
             XLSX.writeFile(wb, filename);
         }
 
-        // تصدير بيانات الحشد
-        function exportHashdData() {
-            if (systemData.registrations.length === 0) {
-                alert('لا توجد بيانات للتصدير');
-                return;
-            }
-
-            const data = systemData.registrations.map((item, index) => ({
-                'الرقم التسلسلي': index + 1,
-                'الرقم القومي': item.nationalId,
-                'تاريخ ووقت التسجيل': item.timestamp,
-                'المستخدم': item.user,
-                'موقع النقطة': item.location
-            }));
-
-            const filename = `بيانات_الحشد_${new Date().toLocaleDateString('ar-EG').replace(/\//g, '-')}.xlsx`;
-            exportToExcel(data, filename, 'بيانات الحشد');
-            
-            showMessage('hashdMessage', 'تم تصدير البيانات بنجاح');
-        }
-
-        // تصدير بيانات الانتخاب
-        function exportVotesData() {
-            if (systemData.votes.length === 0) {
-                alert('لا توجد بيانات للتصدير');
-                return;
-            }
-
-            const data = systemData.votes.map((item, index) => ({
-                'الرقم التسلسلي': index + 1,
-                'الرقم القومي': item.nationalId,
-                'تاريخ ووقت الانتخاب': item.timestamp,
-                'المستخدم': item.user,
-                'موقع المقر': item.location
-            }));
-
-            const filename = `بيانات_الانتخاب_${new Date().toLocaleDateString('ar-EG').replace(/\//g, '-')}.xlsx`;
-            exportToExcel(data, filename, 'بيانات الانتخاب');
-            
-            showMessage('maqarrMessage', 'تم تصدير البيانات بنجاح');
-        }
-
-        // تصدير بيانات الصرف
-        function exportDispensesData() {
-            if (systemData.dispenses.length === 0) {
-                alert('لا توجد بيانات للتصدير');
-                return;
-            }
-
-            const data = systemData.dispenses.map((item, index) => ({
-                'الرقم التسلسلي': index + 1,
-                'الرقم القومي': item.nationalId,
-                'تاريخ ووقت الصرف': item.timestamp,
-                'المستخدم': item.user,
-                'موقع النقطة': item.location
-            }));
-
-            const filename = `بيانات_الصرف_${new Date().toLocaleDateString('ar-EG').replace(/\//g, '-')}.xlsx`;
-            exportToExcel(data, filename, 'بيانات الصرف');
-            
-            showMessage('sarafMessage', 'تم تصدير البيانات بنجاح');
-        }
-
         // تصدير جميع البيانات (محلل البيانات)
         function exportAllData() {
             if (systemData.registrations.length === 0 && systemData.votes.length === 0 && systemData.dispenses.length === 0) {
